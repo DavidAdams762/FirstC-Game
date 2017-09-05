@@ -1,0 +1,83 @@
+#include "CLevel.h"
+
+CLevel CLevel::level;
+std::vector<Vaisseaux> CLevel::ships; 
+
+CLevel::CLevel(){
+	timePassed = 0.0f;
+	ennemyIndex = 0;
+}
+
+void CLevel::buildLevel() {
+	ifstream file;
+
+	file.open("level/level.txt");
+
+	string type = "";
+	float positionX = 0;
+	float time = 0.0f;
+
+	float finalTime = 0.0f;
+
+	getline(file, type);
+
+	while (!file.eof()){
+		file >> type;
+		file >> positionX;
+		file >> time;
+
+		addShip(type, positionX, time);
+
+		finalTime = time;
+	}
+	file.close();
+}
+
+void CLevel::addShip(string type, float positionX, float time){
+	Vaisseaux vaisseau;
+	vaisseau.type = type;
+	vaisseau.positionX = positionX;
+	vaisseau.time = time;
+
+	ships.push_back(vaisseau);
+}
+
+void CLevel::onLoop(){
+	timePassed = (SDL_GetTicks() - CFPS::FPSControl.getInGameTime()) / 1000;
+	for(int i = ennemyIndex; i < ships.size(); i++){
+		if(ships[i].time > timePassed)
+			break;
+		spawnShip(ships[i]);
+		ennemyIndex++;
+	}
+}
+
+void CLevel::reset(){
+	timePassed = 0.0f;
+	ennemyIndex = 0;
+
+	ships.clear();
+}
+
+void CLevel::spawnShip(Vaisseaux ship){
+	if(ship.type == "Darkboss"){
+
+	}
+	else if (ship.type == "Redboss"){
+
+	}
+	else {
+		CEnemy* enemy;
+		if(ship.type == "Grayalien"){
+			enemy = new CGrayalien();
+			char ent2[] = "images/gray-alien.png";
+			if(enemy->onLoad(ent2, 50, 50, 1) == false) return ;
+		}
+		else if (ship.type == "Redboy"){
+		}
+		else if (ship.type == "Reddemon"){
+		}
+		enemy->setPosition(ship.positionX, -25);
+		CEntity::entityList.push_back(enemy);
+	}
+}

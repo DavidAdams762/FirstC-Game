@@ -1,0 +1,126 @@
+#include "TheGame.h"
+using namespace std;
+
+
+
+TheGame::TheGame() {
+	ecran = NULL;
+//	ecranTest = NULL;
+	gameOn = true;
+	Uint8 *keyStates = 0;
+	state = menus;
+}
+
+int TheGame::onExecute() {
+	if(onInit() == false){
+		return -1;
+	}
+	SDL_Event event;
+    // Variables Chrono
+    Uint32 old_time, current_time;
+    float ftime;
+    current_time = SDL_GetTicks();
+
+    //On doit Initialiser SDL_ttf dans la partie Init de notre structure basique
+    TTF_Init();
+
+	char nomFont[] = "Fonts/Electromagnetic_Lungs.otf";
+
+    //Défini la police et la taille à utiliser dans tout le menu
+    menu.setFontStyle(nomFont, 40);
+
+    //Défini la position du menu à l'image
+    menu.setPosition(200, 200);
+
+    //Défini les couleurs
+    SDL_Color hoverColor = {0, 66, 99};
+    SDL_Color normalColor = {153, 0, 102};
+    menu.setColor(normalColor, hoverColor);
+
+    //Ajoute les liens de notre menu
+    menu.addRow("New Game");
+	menu.addRow("Options");
+    menu.addRow("Credits");
+    menu.addRow("Quitter");
+
+	while(gameOn) {
+
+		while(SDL_PollEvent(&event)){
+			onEvent(&event);
+		}
+
+		if (state == menus) {
+			if(menu.getIsSelect()) {
+
+            	    //Test parmi les choix possibles
+            	    switch(menu.getCurrentIndex()) {
+            		    case MENU_GAME:
+            		        state = game;
+            		        cout << "Menu Game" << endl << flush;
+            		    break;
+            		    case MENU_SCORE:
+            		        cout << "Menu Score" << endl << flush;
+            		    break;
+            		    case MENU_OPTION:
+            		        cout << "Menu Option" << endl << flush;
+            		    break;
+            		    case MENU_QUIT:
+            		        cout << "Menu Quitter" << endl << flush;
+            		        gameOn = false;
+            		    break;
+            	    }
+                }
+	        //Affiche le menu
+	        menu.OnRender(ecran);
+	        //Mise à jour de l'écran
+	        SDL_Flip(ecran);
+		}
+		else if (state == game) {
+		    onLoop();
+            onRender();
+            //onKeyStates();
+            onClear();
+		}
+
+		//Chrono
+		old_time = current_time;
+        current_time = SDL_GetTicks();
+        ftime = current_time / 1000.0f;
+
+       // cout << ftime << endl;
+       // cout << "-" << endl;
+
+            	//TODO : create CEnemy dynamically
+        //	    if (ftime >= 0.0f) {
+        //	    	if ((int)ftime % 2 == 1) {
+        //	        	entity2.moveSet(1.0f, 1.0f);
+        //	        }
+        //	        else {
+        //	        	entity2.moveSet(-1.0f, 1.0f);
+        //	        }
+        //	    }
+        //	    if ((int)ftime % 10 == 0 && ftime > 10.0f) {
+        //		    onAppearEnemies(ftime);
+        //		}
+        //
+        //		if (ftime >= 0.0f) {
+        //	    	if ((int)ftime % 2 == 1) {
+        //	        	entity3.moveSet(2.0f, 2.0f);
+        //	        }
+        //	        else {
+        //	        	entity3.moveSet(2.0f, -2.0f);
+        //	        }
+        //	    }
+
+        //keyStates = SDL_GetKeyState(NULL);
+
+	}
+	onCleanup();
+	return 0;
+}
+
+
+int main(int argc, char* argv[]) {
+	TheGame herc;
+	return herc.onExecute();
+}

@@ -1,0 +1,30 @@
+#include "TheGame.h"
+
+TheGame::TheGame() {
+	ecran = NULL;
+	ecranTest = NULL;
+	gameOn = true;
+}
+
+int TheGame::onExecute() {
+	if(onInit() == false){
+		return -1;
+	}
+	SDL_Event event;
+	
+	while(gameOn){
+		while(SDL_PollEvent(&event)){
+			onEvent(&event);
+		}
+		onLoop();
+		onRender();
+	}
+	onCleanup();
+	return 0;
+}
+
+int main(int argc, char* argv[]) {
+	TheGame herc;
+	
+	return herc.onExecute();
+}

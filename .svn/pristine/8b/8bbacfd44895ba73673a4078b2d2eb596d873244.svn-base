@@ -1,0 +1,7 @@
+#include "TheGame.h"
+
+void TheGame::onRender() {
+    CSurface::onDraw(ecran, ecranTest, 0, 0);
+ 
+    SDL_Flip(ecran);
+}

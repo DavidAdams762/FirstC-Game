@@ -1,0 +1,20 @@
+#include "TheGame.h"
+
+bool TheGame::onInit(){
+	char fondEcran[] = "yoshi.bmp";
+	char* ptdFondEcran = fondEcran;
+	animYoshi.maxFrames = 8;
+	animYoshi.oscillate = true;
+
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+		return false;
+	}
+	if((ecran = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
+		return false;
+	}
+	if((ecranTest = CSurface::onLoad(fondEcran)) == NULL ) {
+		return false;
+	}
+	CSurface::transparent(ecranTest, 255, 0, 255);
+	return true;
+}

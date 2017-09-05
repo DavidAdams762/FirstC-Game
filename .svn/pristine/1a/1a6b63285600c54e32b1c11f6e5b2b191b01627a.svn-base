@@ -1,0 +1,30 @@
+#include "TheGame.h"
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+bool TheGame::onAppearEnemies(float ftime) {
+	static string ennemies[] = {"./yoshi.bmp"};
+	char* randomEnemies;
+	int randPos = rand()%(500-0 + 1) + 0;
+
+	srand(time(0));
+	int rand_index = rand() % 1;
+	randomEnemies = (char*)ennemies[rand_index].c_str();
+
+	if (entity3.onLoad(randomEnemies, 64, 64, 8) == false){
+		log.writeLog(ERROR, "onLoad() Failed << TheGame_OnAppearEnemies.cpp");
+		return false;
+	}
+
+	entity3.x = -60;
+	entity3.y = randPos;
+
+    CEntity::entityList.push_back(&entity3);
+
+	return true;
+}

@@ -1,0 +1,244 @@
+#include "CEntity.h"
+#include <iostream>
+std::vector<CEntity*> CEntity::entityList;
+std::vector<CEntityCol> CEntityCol::entityColList;
+
+CEntityCol::CEntityCol(){
+	entityA = NULL;
+	entityB = NULL;
+}
+CEntity::CEntity(){
+	imgEntity = NULL;
+	x = y = 0.0f;
+	width = height = 0;
+	animState = 0;
+	moveLeft = false;
+	moveRight = false;
+
+	type = ENTITY_TYPE_GENERIC;
+	dead = false;
+	flags = ENTITY_FLAG_NONE;
+
+	speedX = 0;
+	speedY = 0;
+
+	accelX = 0;
+	accelY = 0;
+
+	maxSpeedX = 5;
+	maxSpeedY = 5;
+
+	currentFrameCol = 0;
+	currentFrameRow = 0;
+	//coordonnees de colision
+	colX = 0;
+	colY = 0;
+	//largeur et hauteur de celle-ci
+	colHeight = 0;
+	colWidth = 0;
+}
+
+CEntity::~CEntity(){
+}
+
+bool CEntity::onLoad(char* file, int width, int height, int maxFrames) {
+	if((imgEntity = CSurface::onLoad(file)) == NULL)
+		return false;
+
+	CSurface::transparent(imgEntity, 255, 0, 255);
+	this->width = width;
+	this->height = height;
+
+	animControl.maxFrames = maxFrames;
+
+	return true;
+}
+
+void CEntity::onLoop(){
+	if (moveLeft == false && moveRight == false){
+		stopMoveHorizontal();
+	}
+	if(moveUp == false && moveDown == false){
+		stopMoveVertical();
+	}
+	if(moveLeft){
+		accelX = -0.5;
+
+	}
+	else if(moveRight){
+		accelX = 0.5;
+	}
+	if(moveUp) {
+		accelY = -0.5;
+	}
+	else if(moveDown){
+		accelY = 0.5;
+	}
+	speedX += accelX * CFPS::FPSControl.getSpeedFactor();
+	speedY += accelY * CFPS::FPSControl.getSpeedFactor();
+
+	if(speedX > maxSpeedX) 
+		speedX = maxSpeedX;
+	if(speedX < -maxSpeedX) 
+		speedX = -maxSpeedX;
+	if(speedY > maxSpeedY) 
+		speedY = maxSpeedY;
+	if(speedY < -maxSpeedY) 
+		speedY = -maxSpeedY;
+
+	onAnimate();
+	onMove(speedX, speedY);
+}
+
+void CEntity::onRender(SDL_Surface* display){
+	if (display == NULL || display == NULL) return;
+	CSurface::onDraw(display, imgEntity, x, y, animState * width, (currentFrameRow + animControl.getCurrentFrame()) * height, width, height);
+}
+
+void CEntity::onCleanup(){
+	if(imgEntity)
+		SDL_FreeSurface(imgEntity);
+	imgEntity = NULL;
+}
+
+void CEntity::onAnimate(){
+	if(moveLeft) {
+		currentFrameCol = 0;
+	}
+	else if (moveRight) {
+		currentFrameCol = 1;
+	}  
+	animControl.onAnimate();
+}
+
+void CEntity::onCollision(){
+}
+
+void CEntity::onMove(float moveX, float moveY){
+	if (moveX == 0 && moveY == 0) return ;
+
+	double newX = 0;
+	double newY = 0;
+
+	moveX *= CFPS::FPSControl.getSpeedFactor();
+	moveY *= CFPS::FPSControl.getSpeedFactor();
+
+	if(moveX != 0){
+		if(moveX >= 0)
+			newX = CFPS::FPSControl.getSpeedFactor();
+		else
+			newX = -CFPS::FPSControl.getSpeedFactor();
+	}
+	if (moveY != 0){
+		if(moveY >= 0)
+			newY = CFPS::FPSControl.getSpeedFactor();
+		else
+			newY = -CFPS::FPSControl.getSpeedFactor();
+	}
+	while(true){
+
+		if(posValid((int)(y + newY), (int)(y)))
+			x += newX;
+		else
+			speedX = 0;
+		if(posValid((int)(x), (int) (y + newY)))
+			y += newY;
+		else
+			speedY = 0;
+		moveX += -newX;
+		moveY += -newY;
+
+		if(newX > 0 && moveX <= 0) newX = 0;
+		if(newX < 0 && moveX >= 0) newX = 0;
+
+		if(newY > 0 && moveY <= 0) newY = 0;
+		if(newY < 0 && moveY >= 0) newY = 0;
+
+		if(moveX == 0) newX = 0;
+		if(moveY == 0) newY = 0;
+
+		if(moveX == 0 && moveY == 0) break;
+		if(newX == 0 && newY == 0) break;
+	}
+}
+
+void CEntity::stopMoveHorizontal() {
+	if(speedX > 0)
+		accelX = -1;
+	if(speedX < 0)
+		accelX = 1;
+	if(speedX < 2.0f && speedX > -2.0f){
+		accelX = 0;
+		speedX = 0;
+	}
+}
+void CEntity::stopMoveVertical(){
+	if(speedY > 0)
+		accelY = -1;
+	if(speedY < 0)
+		accelY = 1;
+	if(speedY < 2.0f && speedY > -2.0f){
+		accelY = 0;
+		speedY = 0;
+	}
+
+}
+
+bool CEntity::collides(int oX, int oY, int oW, int oH){
+	int leftA, topA, bottomA, rightA;
+	int leftB, topB, bottomB, rightB;
+
+	leftA = (int) x + colX;
+	leftB = oX;
+
+	rightA = leftA + width - 1 - colWidth;
+	rightB = oX + oW - 1;
+
+	topA = (int) y + colY;
+	topB = oY;
+
+	bottomA = topA + height - 1 - colHeight;
+	bottomB = oY + oH - 1;
+
+	if(bottomA < topB) return false;
+	if(topA > bottomB) return false;
+
+	if(rightA < rightB) return false;
+	if(leftA > rightB) return false;
+
+	return true;
+}
+
+bool CEntity::posValid(int newX, int newY){
+	bool retour = true;
+	int startX = newX + colX;
+	int startY = newY + colY;
+
+	int endX = ((newX + colX) + width - colWidth - 1);
+	int endY = ((newY + colY) + height - colHeight - 1);
+
+	if(startX < 0 || startY < 0)
+		retour = false;
+	if(endX > WWIDTH || endY > WHEIGHT)
+		retour = false;
+	for(int i = 0; i < entityList.size(); i++){
+		if(posValidEntity(entityList[i], newX, newY) == false) {
+			retour = false;
+		}
+	}
+	return retour;
+}
+
+bool CEntity::posValidEntity(CEntity* entity, int newX, int newY) {
+	if(this != entity && entity != NULL && entity->dead == false && 
+		entity->collides(newX + colX, newY + colY, width - colWidth, height - colHeight) == true) {
+		CEntityCol entityCol; //colision
+		entityCol.entityA = this;
+		entityCol.entityB = entity;
+
+		CEntityCol::entityColList.push_back(entityCol);
+
+		return false;
+	}
+	return true;
+}

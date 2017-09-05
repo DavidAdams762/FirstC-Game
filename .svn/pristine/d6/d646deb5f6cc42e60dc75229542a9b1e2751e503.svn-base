@@ -1,0 +1,57 @@
+#include "TheGame.h"
+#include <iomanip>
+
+bool TheGame::onInit(){
+	//On doit Initialiser SDL_ttf dans la partie Init de notre structure basique
+	TTF_Init();
+
+	char ent1[] = "./blueblur.png";
+	char ent2[] = "./yoshi.png";
+	char* ptdFondEcran = ent1;
+	char* yosh = ent2;
+
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+		return false;
+	}
+	if((ecran = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
+		return false;
+	}
+
+	// David : Ca fait bugger le menu quand cette ligne est active => Acceleration je sais pas pk
+	SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
+
+
+	if (blueBlur.onLoad(ptdFondEcran, 50, 50, 3) == false){
+		return false;
+	}
+	if (entity2.onLoad(yosh, 64, 64, 8) == false){
+		return false;
+	}
+
+	entity2.x = 180;
+	entity2.y = 0;
+
+    CEntity::entityList.push_back(&blueBlur);
+    CEntity::entityList.push_back(&entity2);
+	return true;
+}
+
+void TheGame::initMenu(){
+    //Défini la police et la taille à utiliser dans tout le menu
+    menu.setFontStyle(MENU_FONT, MENU_SIZE);
+
+    //Défini la position du menu à l'image
+    menu.setPosition(200, 200);
+
+    //Défini les couleurs
+    SDL_Color hoverColor = {0, 66, 99};
+    SDL_Color normalColor = {153, 0, 102};
+    menu.setColor(normalColor, hoverColor);
+
+    //Ajoute les liens de notre menu
+    menu.addRow("New Game");
+	menu.addRow("Options");
+    menu.addRow("Score");
+    menu.addRow("Quitter");
+}
+

@@ -1,0 +1,57 @@
+#include "TheGame.h"
+#include <iostream>
+
+using namespace std;
+
+TheGame::TheGame() {
+	ecran = NULL;
+	ecranTest = NULL;
+	gameOn = true;
+	Uint8 *keyStates = 0;
+}
+
+int TheGame::onExecute() {
+	Uint32 old_time, current_time;
+    float ftime;
+    current_time = SDL_GetTicks();
+
+	if(onInit() == false){
+		return -1;
+	}
+	SDL_Event event;
+
+	while(gameOn){
+	old_time = current_time;
+    current_time = SDL_GetTicks();
+    ftime = current_time / 1000.0f;
+
+       cout << ftime << endl;
+       cout << "-" << endl;
+
+    if (ftime >= 0.0f) {
+    	if ((int)ftime % 2 == 1) {
+        	entity2.moveSet(0.5f, 0.5f);
+        }
+        else {
+        	entity2.moveSet(-0.5f, 0.5f);
+        }
+    }
+
+	keyStates = SDL_GetKeyState(NULL);
+		while(SDL_PollEvent(&event)){
+			onEvent(&event);
+		}
+		onLoop();
+		onRender();
+		onKeyStates();
+		onClear();
+	}
+	onCleanup();
+	return 0;
+}
+
+int main(int argc, char* argv[]) {
+	TheGame herc;
+
+	return herc.onExecute();
+}

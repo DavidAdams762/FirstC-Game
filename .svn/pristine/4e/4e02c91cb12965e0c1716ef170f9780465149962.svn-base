@@ -1,0 +1,29 @@
+#ifndef _CENEMY_H_
+#define _CENEMY_H_
+#include "CEntity.h"
+
+class CEnemy : public CEntity {
+	private :
+		int lives;
+	protected :
+
+	public :
+
+        virtual int getLives();
+        virtual void setLives(int lives);
+
+        virtual void trajectory();
+        void onLoop();
+        void onCollision(CEntity* entity);
+        void onRender(SDL_Surface* surface);
+        void onCleanup();
+        void onAnimate();
+
+        bool posValid(int newX, int newY);
+        bool posValidEntity(CEntity* entity, int newX, int newY);
+        
+        CEnemy();
+		virtual ~CEnemy();
+};
+
+#endif

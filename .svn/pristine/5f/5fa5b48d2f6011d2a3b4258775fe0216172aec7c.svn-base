@@ -1,0 +1,41 @@
+#include "CEnemy.h"
+
+CEnemy::CEnemy(){
+	this->lives = 5;
+	maxSpeedY = 1;
+	moveDown = true;
+	accelX = 1;
+}
+
+CEnemy::~CEnemy(){
+
+}
+
+int CEnemy::getLives() {
+	return this->lives;
+}
+
+void CEnemy::setLives(int lives) {
+	this->lives = lives;
+}
+
+void CEnemy::moveSet(float x, float y) {
+	this->x = this->x + x;
+	this->y = this->y + y;
+}
+/*
+void CEnemy::onLoop(){
+	CEntity::onLoop();
+}
+
+void CEnemy::onRender(SDL_Surface* surface) {
+	CEntity::onRender(surface);
+}
+
+void CEnemy::onCleanup(){
+	CEntity::onCleanup();
+}
+void CEnemy::stopMoveVertical(){
+
+}
+ */

@@ -1,0 +1,23 @@
+#ifndef _CPLAYER_H_
+#define _CPLAYER_H_
+#include "CEntity.h"
+#include "Define.h"
+class CPlayer : public CEntity {
+
+public:
+	CPlayer();
+	
+	bool onLoad(char* file, int width, int height, int maxFrames);
+
+	void onLoop();
+
+	void onRender(SDL_Surface* surface);
+
+	void onCleanup();
+
+	void onAnimate();
+	
+	void onCollision(CEntity* entity);
+
+};
+#endif

@@ -1,0 +1,7 @@
+#include "TheGame.h"
+
+void TheGame::onEvent(SDL_Event* event) {
+	if(event->type == SDL_QUIT){
+		gameOn = false;
+	}
+}

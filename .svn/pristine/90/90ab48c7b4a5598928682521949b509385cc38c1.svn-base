@@ -1,0 +1,27 @@
+#ifndef _CENEMY_H_
+#define _CENEMY_H_
+#include "CEntity.h"
+
+class CEnemy : public CEntity {
+	private :
+		int lives;
+	protected :
+
+	public :
+
+        virtual int getLives();
+        virtual void setLives(int lives);
+
+        virtual void moveSet(float x, float y);
+         /*
+        void onLoop();
+        void  stopMoveVertical();
+        void onRender(SDL_Surface* surface);
+        void onCleanup();
+        */
+
+        CEnemy();
+		virtual ~CEnemy();
+};
+
+#endif

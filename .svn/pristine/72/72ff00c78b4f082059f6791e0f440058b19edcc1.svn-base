@@ -1,0 +1,9 @@
+#include "TheGame.h"
+
+void TheGame::onRender() {
+ 	for(int i = 0;i < CEntity::entityList.size();i++) {
+    	if(!CEntity::entityList[i]) continue;
+    	CEntity::entityList[i]->onRender(ecran);
+	}
+    SDL_Flip(ecran);
+}

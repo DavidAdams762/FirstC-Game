@@ -1,0 +1,27 @@
+#ifndef _THEGAME_H_
+#define _THEGAME_H_
+#include "SDL/SDL.h"
+#include "CEvent.h"
+#include "CSurface.h"
+
+class TheGame : public CEvent {
+	private :
+		bool gameOn;
+		SDL_Surface* ecran;
+		SDL_Surface* ecranTest;
+	public :
+		TheGame();
+		int onExecute();
+	public :
+
+		bool onInit(); //Initialisation du jeu
+		void onEvent(SDL_Event* Event);
+ 
+        void onExit(); 
+		void onLoop(); //Le jeu "tourne"
+		void onRender(); //Gestion de l'affichage
+		void onCleanup(); //Fermeture
+
+};
+
+#endif

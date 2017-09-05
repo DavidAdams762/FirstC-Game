@@ -1,0 +1,20 @@
+#include "TheGame.h"
+
+bool TheGame::onInit(){
+	char fondEcran[] = "blueblur.bmp";
+	char* ptdFondEcran = fondEcran;
+	animShip.maxFrames = 4;
+	animShip.oscillate = true;
+
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+		return false;
+	}
+	if((ecran = SDL_SetVideoMode(640, 480, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
+		return false;
+	}
+	if((ecranTest = CSurface::onLoad(ptdFondEcran)) == NULL ) {
+		return false;
+	}
+	CSurface::transparent(ecranTest, 255, 0, 255);
+	return true;
+}

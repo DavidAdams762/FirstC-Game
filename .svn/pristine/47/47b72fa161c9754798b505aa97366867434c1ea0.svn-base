@@ -1,0 +1,42 @@
+#include "CEntity.h"
+
+std::vector<CEntity*> CEntity::entityList;
+
+CEntity::CEntity(){
+	imgEntity = NULL;
+	x = y = 0.0f;
+	width = height = 0;
+	animState = 0;
+}
+
+CEntity::~CEntity(){
+}
+
+bool CEntity::onLoad(char* file, int width, int height, int maxFrames) {
+	if((imgEntity = CSurface::onLoad(file)) == NULL)
+		return false;
+
+	CSurface::transparent(imgEntity, 255, 0, 255);
+	this->width = width;
+	this->height = height;
+
+	animControl.maxFrames = maxFrames;
+
+	return true;
+}
+
+void CEntity::onLoop(){
+	animControl.onAnimate();
+}
+
+void CEntity::onRender(SDL_Surface* display){
+	if (display == NULL || display == NULL) return;
+
+	CSurface::onDraw(display, imgEntity, x, y, animState * width, animControl.getCurrentFrame() * height, width, height);
+}
+
+void CEntity::onCleanup(){
+	if(imgEntity)
+		SDL_FreeSurface(imgEntity);
+	imgEntity = NULL;
+}

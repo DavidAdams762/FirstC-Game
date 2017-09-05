@@ -1,0 +1,22 @@
+#ifndef _DEFINE_H_
+#define _DEFINE_H_
+
+#define MAP_WIDTH 40
+#define MAP_HEIGHT 40
+
+#define TILE_SIZE 16
+
+#define WWIDTH 800
+#define WHEIGHT 600
+
+#define MOVE_SPEED_PLAYER 5
+
+#define TITLE_GAME "The Game"
+#define TITLE_FONT "Fonts/space_age.ttf"
+#define TITLE_SIZE 70
+
+#define MENU_FONT "Fonts/Electromagnetic_Lungs.otf"
+#define MENU_SIZE 40
+
+
+#endif

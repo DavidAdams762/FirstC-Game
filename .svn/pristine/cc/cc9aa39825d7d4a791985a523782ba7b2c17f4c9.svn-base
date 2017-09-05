@@ -1,0 +1,18 @@
+#include "TheGame.h"
+
+void TheGame::onRender() {
+ 	for(int i = 0;i < CEntity::entityList.size();i++) {
+    	if(!CEntity::entityList[i]) continue;
+    	CEntity::entityList[i]->onRender(ecran);
+	}
+    SDL_Flip(ecran);
+}
+
+void TheGame::onRenderTitle(SDL_Surface* dest, SDL_Surface* source, int x, int y) {
+	CSurface::onDraw(ecran, source, x, y);
+    //Mise à jour de l'écran
+    SDL_Flip(ecran);
+}
+void TheGame::onClear() {
+	SDL_FillRect(ecran, NULL, SDL_MapRGB( ecran->format, 0,0,0));
+}

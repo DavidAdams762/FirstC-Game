@@ -1,0 +1,21 @@
+#include "CEnemy.h"
+
+CEnemy::CEnemy(){
+	this->lives = 5;
+}
+
+CEnemy::~CEnemy(){
+}
+
+int CEnemy::getLives() {
+	return this->lives;
+}
+
+void CEnemy::setLives(int lives) {
+	this->lives = lives;
+}
+
+void CEnemy::moveSet(float x, float y) {
+	this->x = this->x + x;
+	this->y = this->y + y;
+}

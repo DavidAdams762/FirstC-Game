@@ -1,0 +1,4 @@
+#include "TheGame.h"
+
+void TheGame::onLoop() {
+}

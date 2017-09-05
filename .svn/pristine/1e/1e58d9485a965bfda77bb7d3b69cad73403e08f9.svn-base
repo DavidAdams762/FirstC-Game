@@ -1,0 +1,34 @@
+#ifndef _DEFINE_H_
+#define _DEFINE_H_
+
+#define MAP_WIDTH 40
+#define MAP_HEIGHT 40
+
+#define TILE_SIZE 16
+
+#define WWIDTH 800
+#define WHEIGHT 600
+
+#define MOVE_SPEED_PLAYER 5
+
+#define TITLE_GAME "The Blue Blur"
+#define TITLE_FONT "Fonts/space_age.ttf"
+#define TITLE_FONT_IMG "Fonts/Other_Space.ttf"
+#define TITLE_SIZE 60
+
+#define SS_TITLE_SIZE 30
+
+#define MENU_FONT "Fonts/Electromagnetic_Lungs.otf"
+#define MENU_SIZE 40
+
+#define HEROLIFE 100
+#define HEROMAXFRAME 3
+
+#define REDBOSSLIFE 300
+#define DARKBOSSLIFE 220
+#define GRAYALIENLIFE 180
+#define REDDEMONLIFE 100
+
+#define BULLETSPEED 5
+
+#endif

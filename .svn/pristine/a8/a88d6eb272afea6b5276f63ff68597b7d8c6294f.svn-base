@@ -1,0 +1,16 @@
+#ifndef _CSURFACE_H_
+#define _CSURFACE_H_
+
+#include "SDL/SDL.h"
+
+class CSurface {
+	public :
+		CSurface();
+
+		static SDL_Surface* onLoad(char* File);
+		static bool onDraw(SDL_Surface* ecran, SDL_Surface* source, int x, int y);
+		static bool onDraw(SDL_Surface* ecran, SDL_Surface* source, int x, int y, int x2, int y2, int width, int heigth);
+		static bool transparent(SDL_Surface* surface, int r, int g, int b);
+};
+
+#endif

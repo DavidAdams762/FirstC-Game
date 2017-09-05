@@ -1,0 +1,30 @@
+#include "TheGame.h"
+#include <iostream>
+
+using namespace std;
+
+void TheGame::onEvent(SDL_Event* event) {
+	CEvent::onEvent(event);
+}
+
+void TheGame::onExit() {
+    gameOn = false;
+}
+
+void TheGame::onKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode) {
+    if (sym == SDLK_ESCAPE) {
+    	gameOn = false;
+    }
+    if (sym == SDLK_UP) {
+    	cout << "up" << endl;
+    }
+    if (sym == SDLK_DOWN) {
+    	cout << "down" << endl;
+    }
+    if (sym == SDLK_RIGHT) {
+    	cout << "right" << endl;
+    }
+    if (sym == SDLK_LEFT) {
+    	cout << "left" << endl;
+    }
+}

@@ -1,0 +1,7 @@
+#include "TheGame.h"
+
+void TheGame::onCleanup() {
+	SDL_FreeSurface(ecran);
+	SDL_FreeSurface(ecranTest);
+	SDL_Quit();
+}

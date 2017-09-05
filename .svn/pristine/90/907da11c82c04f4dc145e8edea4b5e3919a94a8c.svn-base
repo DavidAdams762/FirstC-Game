@@ -1,0 +1,9 @@
+#ifndef _CGRAYALIEN_H_
+#define _CGRAYALIEN_H_
+#include "CEnemy.h"
+class CGrayalien : public CEnemy {
+	private :
+	public :
+		CGrayalien();
+};
+#endif

@@ -1,0 +1,35 @@
+#include "TheGame.h"
+
+void TheGame::onLoop() {
+	//	animShip.onAnimate();
+	for(int i = 0;i < CEntity::entityList.size();i++) {
+		if(!CEntity::entityList[i]) continue;
+
+		CEntity::entityList[i]->onLoop();
+	}
+
+	CFPS::FPSControl.onLoop();
+    CLevel::level.onLoop();
+}
+
+void TheGame::onLoopMenu() {
+	if(menu.getIsSelect()) {
+        //Test parmi les choix possibles
+        switch(menu.getCurrentIndex()) {
+            case MENU_GAME:
+                state = game;
+                cout << "Menu Game" << endl << flush;
+            break;
+            case MENU_SCORE:
+                cout << "Menu Score" << endl << flush;
+            break;
+            case MENU_OPTION:
+                cout << "Menu Option" << endl << flush;
+            break;
+            case MENU_QUIT:
+                cout << "Menu Quitter" << endl << flush;
+                onExit();
+            break;
+        }
+    }
+}

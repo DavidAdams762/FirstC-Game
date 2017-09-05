@@ -1,0 +1,7 @@
+#include "TheGame.h"
+
+void TheGame::onRender() {
+    CSurface::onDraw(ecran, ecranTest, 290, 220, 0, animShip.getCurrentFrame() * 32, 32, 32);
+ 
+    SDL_Flip(ecran);
+}

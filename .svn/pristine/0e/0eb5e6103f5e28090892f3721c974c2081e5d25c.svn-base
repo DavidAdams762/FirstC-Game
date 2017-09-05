@@ -1,0 +1,35 @@
+#include "CPlayer.h"
+
+CPlayer::CPlayer() {
+}
+
+bool CPlayer::onLoad(char* file, int width, int height, int maxFrames){
+	if(CEntity::onLoad(file,width,height,maxFrames) == false) return false;
+	return true;
+}
+
+void CPlayer::onLoop(){
+	CEntity::onLoop();
+}
+
+void CPlayer::onRender(SDL_Surface* surface) {
+	CEntity::onRender(surface);
+}
+
+void CPlayer::onCleanup(){
+	CEntity::onCleanup();
+}
+
+void CPlayer::onAnimate(){
+	if(speedX != 0) {
+		animControl.maxFrames = 3;
+	}
+	else {
+		animControl.maxFrames = 0;
+	}
+	CEntity::onAnimate();
+}
+
+void CPlayer::onCollision(CEntity* entity) {
+}
+

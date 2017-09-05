@@ -1,0 +1,30 @@
+#include "TheGame.h"
+#include <iostream>
+
+using namespace std;
+
+void TheGame::onEvent(SDL_Event* event) {
+	CEvent::onEvent(event);
+}
+
+void TheGame::onExit() {
+    gameOn = false;
+}
+
+void TheGame::onKeyStates() {
+    if (keyStates[SDLK_ESCAPE]) {
+        onExit();
+    }
+    if (keyStates[SDLK_LEFT]) {
+        entity2.x -= MOVE_SPEED_PLAYER;
+    }
+    if (keyStates[SDLK_RIGHT]) {
+        entity2.x += MOVE_SPEED_PLAYER;
+    }
+    if (keyStates[SDLK_DOWN]) {
+        entity2.y += MOVE_SPEED_PLAYER;
+    }
+    if (keyStates[SDLK_UP]) {
+        entity2.y -= MOVE_SPEED_PLAYER;
+    }
+}

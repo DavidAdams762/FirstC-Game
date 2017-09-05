@@ -1,0 +1,3 @@
+#include "CGrayalien.h"
+CGrayalien::CGrayalien() {
+}

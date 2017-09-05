@@ -1,0 +1,59 @@
+#include "CSurface.h"
+
+CSurface::CSurface() {
+}
+
+SDL_Surface* CSurface::onLoad(char* File){
+	SDL_Surface* ecranTemp = NULL;
+	SDL_Surface* ecranReturn = NULL;
+	
+	if((ecranTemp = IMG_Load(File)) == NULL ){
+		return NULL;
+	}
+	ecranReturn = SDL_DisplayFormatAlpha(ecranTemp);
+	SDL_FreeSurface(ecranTemp);
+	
+	return ecranReturn;
+}
+
+bool CSurface::onDraw(SDL_Surface* ecran, SDL_Surface* source, int x, int y){
+	if(ecran == NULL || source == NULL){
+		return false;
+	}
+	SDL_Rect DestR;
+	DestR.x = x;
+	DestR.y = y;
+	
+	SDL_BlitSurface(source, NULL, ecran, &DestR);
+
+	return true;
+}
+
+bool CSurface::onDraw(SDL_Surface* ecran, SDL_Surface* source, int x, int y, int x2, int y2, int width, int heigth){
+	if(ecran == NULL || source == NULL){
+		return false;
+	}
+	SDL_Rect DestR;
+	DestR.x = x;
+	DestR.y = y;
+
+	SDL_Rect SrcR;
+	SrcR.x = x2;
+	SrcR.y = y2;
+	SrcR.w = width;
+	SrcR.h = heigth;
+
+	SDL_BlitSurface(source, &SrcR, ecran, &DestR);
+
+	return true;
+}
+
+bool CSurface::transparent(SDL_Surface* surface, int r, int g, int b){
+	if(surface == NULL){
+		return false;
+	}
+
+	SDL_SetColorKey(surface, SDL_SRCCOLORKEY | SDL_RLEACCEL, SDL_MapRGB(surface->format,r,g,b));
+	SDL_SetAlpha(surface, SDL_RLEACCEL, 255);
+	return true;
+}

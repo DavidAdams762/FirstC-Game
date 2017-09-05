@@ -1,0 +1,94 @@
+#ifndef _CENTITY_H_
+#define _CENTITY_H_
+#include <vector>
+#include "CAnimation.h"
+#include "CFPS.h"
+#include "CSurface.h"
+#include "Define.h"
+enum {
+	ENTITY_TYPE_GENERIC = 0,
+	ENTITY_TYPE_PLAYER
+};
+
+enum {
+	ENTITY_FLAG_NONE = 0,
+};
+
+class CEntity {
+	private :
+		bool posValid(int newX, int newY);
+		bool posValidEntity(CEntity* entity, int newX, int newY);
+
+	public :
+		static std::vector<CEntity*> entityList;
+
+	protected :
+		CAnimation animControl;
+		SDL_Surface* imgEntity;
+
+		float speedX;
+		float speedY;
+
+		float accelX;
+		float accelY;
+
+		float maxSpeedX;
+		float maxSpeedY;
+
+		int currentFrameCol;
+		int currentFrameRow;
+
+		int colX; //colision horizontale
+		int colY; //colision verticale
+		int colWidth; //largeur de la colision
+		int colHeight; //hauteur de la colision
+
+	public :
+		float x;
+		float y;
+
+		float departX;
+		float departY;
+
+		int width;
+		int height;
+
+		int animState;
+		bool moveLeft;
+        bool moveRight;
+        bool moveUp;
+        bool moveDown;
+
+        int type;
+        bool dead;
+        int flags;
+
+
+        void onMove(float moveX, float moveY);
+        void stopMoveVertical();
+        void stopMoveHorizontal();
+
+        bool collides(int oX, int oY, int oW, int oH);
+
+		CEntity();
+		virtual ~CEntity();
+
+		virtual void setPosition(float x, float y);
+		virtual bool onLoad(char* file,int width, int height, int maxFrames);
+		virtual void onLoop();
+		virtual void onRender(SDL_Surface* display);
+		virtual void onCleanup();
+		virtual void onAnimate();
+		virtual void onCollision();
+};
+
+class CEntityCol {
+	public :
+		static std::vector<CEntityCol> entityColList;
+
+		CEntity* entityA;
+		CEntity* entityB;
+
+		CEntityCol();
+};
+#endif

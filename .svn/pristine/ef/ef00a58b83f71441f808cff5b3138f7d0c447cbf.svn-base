@@ -1,0 +1,7 @@
+#include "TheGame.h"
+
+void TheGame::onRender() {
+    CSurface::onDraw(ecran, ecranTest, 290, 220, 0, animYoshi.getCurrentFrame() * 64, 64, 64);
+ 
+    SDL_Flip(ecran);
+}

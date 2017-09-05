@@ -1,0 +1,28 @@
+#include "CGrayalien.h"
+#include <iostream>
+CGrayalien::CGrayalien() {
+}
+
+
+void CGrayalien::trajectory() {
+	float posX = (float)this->x;
+	float posY = (float)this->y;
+
+	if (posY >  departY + 100.0f && posX <= departX + 100.0f) {
+		maxSpeedY = 0;
+        maxSpeedX = 1;
+		moveDown = false;
+        moveRight = true;
+
+        //cout << "Ca y est" << endl;
+	}
+	else{
+		//cout << "Je redescent" <<endl;
+		maxSpeedX= 0;
+		maxSpeedY = 1;
+	    moveRight = false;
+	    moveDown = true;
+	}
+}
+
+

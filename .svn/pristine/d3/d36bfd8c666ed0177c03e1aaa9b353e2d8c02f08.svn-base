@@ -1,0 +1,47 @@
+#ifndef _THEGAME_H_
+#define _THEGAME_H_
+#include <iostream>
+#include "SDL/SDL.h"
+#include "Define.h"
+#include "CEntity.h"
+#include "CEnemy.h"
+#include "CAnimation.h"
+#include "CEvent.h"
+#include "CSurface.h"
+#include "CPlayer.h"
+
+
+
+class TheGame : public CEvent {
+	private :
+		bool gameOn;
+		SDL_Surface* ecran;
+//		SDL_Surface* ecranTest;
+		CAnimation 	 animShip;
+		CEntity entity1;
+		CEnemy entity2;
+		CEnemy entity3;
+		CPlayer blueBlur;
+		//Uint8 *keyStates;
+
+	public :
+		TheGame();
+		int onExecute();
+	public :
+
+		bool onInit(); //Initialisation du jeu
+		void onEvent(SDL_Event* Event);
+
+        void onExit();
+		void onLoop(); //Le jeu "tourne"
+		void onRender(); //Gestion de l'affichage
+		void onCleanup(); //Fermeture
+		//void onKeyStates();
+		void onClear();
+		void onKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
+		void onKeyUp(SDLKey sym, SDLMod mod, Uint16 unicode);
+		bool onAppearEnemies(float ftime);
+
+};
+
+#endif

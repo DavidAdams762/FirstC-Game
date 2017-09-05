@@ -1,0 +1,30 @@
+#include "TheGame.h"
+
+bool TheGame::onInit(){
+	char ent1[] = "./blueblur.bmp";
+	char ent2[] = "./yoshi.bmp";
+	char* ptdFondEcran = ent1;
+	char* yosh = ent2;
+
+	if(SDL_Init(SDL_INIT_EVERYTHING) < 0){
+		return false;
+	}
+	if((ecran = SDL_SetVideoMode(WWIDTH, WHEIGHT, 32, SDL_HWSURFACE | SDL_DOUBLEBUF)) == NULL){
+		return false;
+	}
+
+	if (entity1.onLoad(ptdFondEcran, 32, 32, 4) == false){
+		return false;
+	}
+	if (entity2.onLoad(yosh, 64, 64, 8) == false){
+		return false;
+	}
+
+	entity2.x = 180;
+	entity2.y = 180;
+
+	CEntity::entityList.push_back(&entity1);
+	CEntity::entityList.push_back(&entity2);
+
+	return true;
+}

@@ -1,0 +1,9 @@
+#include "TheGame.h"
+
+void TheGame::onEvent(SDL_Event* event) {
+	CEvent::onEvent(event);
+}
+
+void TheGame::onExit() {
+    gameOn = false;
+}
